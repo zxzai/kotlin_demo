@@ -5,17 +5,16 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toolbar;
 
-import com.example.core.BaseView;
-import com.example.lesson.entity.Lesson;
-
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.lesson.entity.Lesson;
+
+import java.util.List;
 
 public class LessonActivity extends AppCompatActivity implements BaseView<LessonPresenter>, Toolbar.OnMenuItemClickListener {
     private LessonPresenter lessonPresenter = new LessonPresenter(this);
