@@ -43,13 +43,31 @@ class LessonPresenter {
         //mutableListOf<>()
         //listOf<>()
 
+        /*
         val playbackLessons: MutableList<Lesson> = ArrayList();
         for (lesson in lessons) {
-            if (lesson.getState() === Lesson.State.PLAYBACK) {
+            if (lesson.state === Lesson.State.PLAYBACK) {
                 playbackLessons.add(lesson)
             }
         }
-        activity!!.showResult(playbackLessons)
+        等价于下面的forEach逻辑
+
+        也等价于下面的filter逻辑
+        */
+
+        /*
+        lessons.forEach {
+            if (it.state === Lesson.State.PLAYBACK) {
+                playbackLessons.add(it)
+            }
+        }
+        */
+
+//        val filter = lessons.filter { it.state === Lesson.State.PLAYBACK }
+
+        activity!!.showResult(lessons.filter {
+            it.state === Lesson.State.PLAYBACK
+        })
     }
 
 

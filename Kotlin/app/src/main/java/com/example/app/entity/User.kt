@@ -1,16 +1,11 @@
 package com.example.app.entity
 
-class User {
-    var username: String? = null
-    var password: String? = null
-    var code: String? = null
+/**
+ * data 声明为数据类，自动生成，copy(),equals(),hashCode(),
+ */
+data class User constructor(var username: String?, var password: String?, var code: String?) {
 
-    constructor() {
-    }
+    constructor() : this(null, null, null) {
 
-    constructor(username: String?, password: String?, code: String?) {
-        this.username = username
-        this.password = password
-        this.code = code
     }
 }

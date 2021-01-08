@@ -35,9 +35,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val img_code = findViewById<CodeView>(R.id.code_view)
         btn_login.setOnClickListener(this)
         img_code.setOnClickListener(this)
-
     }
 
+
+    //传入时可以传函数，
     override fun onClick(view: View?) {
         if (view is CodeView) {
             view.updateCode()
@@ -52,6 +53,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val code = et_code.text.toString()
 
         val user = User(username, password, code)
+
+        //函数可内嵌函数，但没事调用都会生成一个函数对象，并不推荐
+        /*fun verify(): Boolean {
+            if (user.username?.length ?: 0 < 4) {
+                Utils.toast("用户名不合法")
+                return false
+            }
+            if (user.password?.length ?: 0 < 4) {
+                Utils.toast("密码不合法")
+                return false
+            }
+            return true
+        }*/
+
         if (verify(user)) {
             CacheUtils.save(usernameKey, username)
             CacheUtils.save(passwordKey, password)
@@ -60,12 +75,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun verify(user: User): Boolean {
-        if (user.username != null && user.username!!.length < 4) {
+//        if (user.username != null && user.username!!.length < 4) {
+        //如果user.username不空，则返回对应的length,如果是空，则返回默认值0，然后在判断是否小于4
+        if (user.username?.length ?: 0 < 4) {
             Utils.toast("用户名不合法")
             return false
         }
-        if (user.password != null && user.password!!.length < 4) {
-            Utils.toast("密码不合法")
+
+//        if (user.password != null && user.password!!.length < 4) {
+        if (user.password?.length ?: 0 < 4) {
+            Utils.toast("密码不合法", 1)
             return false
         }
         return true

@@ -14,16 +14,21 @@ private val displayMetrics: DisplayMetrics = Resources.getSystem().displayMetric
  *
  * 但在java中调用，类名需要加上Kt, UtilsKt.dp2px()
  */
-fun dp2px(dp: Float): Float {
+/*fun dp2px(dp: Float): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, displayMetrics)
-}
+}*/
+//函数扩展，这样Float类型就有了dp2px的方法
+//扩展函数是静态解析的，在编译时就已经决定
+fun Float.dp2px(): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, displayMetrics)
 
-object Utils{
-    fun toast(string: String?){
-        toast(string,Toast.LENGTH_SHORT)
-    }
+object Utils {
+    /*fun toast(string: String?) {
+        toast(string, Toast.LENGTH_SHORT)
+    }*/
 
-    fun toast(string: String?,duration:Int){
-        Toast.makeText(BaseApplication.currentApplication(),string,duration).show()
+    //当不传duration参数时，默认值为Toast.LENGTH_SHORT，这样就不用写上的单参数函数
+    @JvmOverloads //使用@JvmOverloads注解，才能再java中使用双参数的方法，否则，只能识别到单参数的方法
+    fun toast(string: String?, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(BaseApplication.currentApplication, string, duration).show()
     }
 }

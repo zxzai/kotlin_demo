@@ -9,27 +9,18 @@ import android.util.TypedValue
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.app.R
-import com.example.core.utils.Utils
+import com.example.core.utils.dp2px
 import java.util.*
 
-class CodeView : AppCompatTextView {
 
+//使用@JvmOverloads注解，才能再java中使用双参数的方法，否则，只能识别到单参数的方法
+class CodeView @JvmOverloads constructor(context: Context, attr: AttributeSet? = null) : AppCompatTextView(context, attr) {
+
+    /*
+    主构造函数attr默认值为null,所以不需要再写单参数的构造函数
     constructor(context: Context) : this(context, null) {
     }
-
-    constructor(context: Context, attr: AttributeSet?) : super(context, attr) {
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-        gravity = Gravity.CENTER
-        setBackgroundColor(getContext().getColor(R.color.colorPrimary))
-        setTextColor(Color.WHITE)
-
-        paint.isAntiAlias = true
-        paint.style = Paint.Style.STROKE
-        paint.color = getContext().getColor(R.color.colorAccent)
-        paint.strokeWidth = Utils.dp2px(6f)
-
-        updateCode()
-    }
+    */
 
     private val paint: Paint = Paint()
     private val codeList = arrayOf("kotlin",
@@ -40,6 +31,20 @@ class CodeView : AppCompatTextView {
             "okhttp",
             "retrofit",
             "tcp/ip")
+
+    init {
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        gravity = Gravity.CENTER
+        setBackgroundColor(getContext().getColor(R.color.colorPrimary))
+        setTextColor(Color.WHITE)
+
+        paint.isAntiAlias = true
+        paint.style = Paint.Style.STROKE
+        paint.color = getContext().getColor(R.color.colorAccent)
+        paint.strokeWidth = 6f.dp2px()
+
+        updateCode()
+    }
 
 
     fun updateCode() {

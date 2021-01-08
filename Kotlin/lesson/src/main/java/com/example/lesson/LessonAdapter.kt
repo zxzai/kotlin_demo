@@ -18,8 +18,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonViewHolder {
-        TODO("Not yet implemented")
-
+        return LessonViewHolder.onCreate(parent)
     }
 
     override fun getItemCount(): Int {
@@ -27,7 +26,7 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
-        holder.onBind(list.get(position))
+        holder.onBind(list[position])//List 的中括号相当于 get()函数
     }
 
     /**
@@ -46,23 +45,16 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
             }
         }
 
-        fun onBind(lesson: Lesson) {
-            var date = lesson.getDate()
-            if (date == null) {
-                date = "日期待定"
-            }
-            setText(R.id.tv_date, date)
-            setText(R.id.tv_content, lesson.getContent()!!)
-            val state = lesson.getState()
+        internal fun onBind(lesson: Lesson) {
+            //var date = lesson.date?:"日期待定"  //如果lesson.date为空，这赋值为默认的“日期待定”，否则，赋值自己
+
+            setText(R.id.tv_date, lesson.date ?: "日期待定")
+            setText(R.id.tv_content, lesson.content)
+            val state = lesson.state
             if (state != null) {
                 setText(R.id.tv_state, state.stateName()!!)
-                var colorRes = R.color.playback
-                colorRes = when (state) {
-                    Lesson.State.PLAYBACK -> {
-
-                        // 即使在 {} 中也是需要 break 的。
-                        R.color.playback
-                    }
+                val colorRes = when (state) {
+                    Lesson.State.PLAYBACK -> R.color.playback
                     Lesson.State.LIVE -> R.color.live
                     Lesson.State.WAIT -> R.color.wait
                 }
