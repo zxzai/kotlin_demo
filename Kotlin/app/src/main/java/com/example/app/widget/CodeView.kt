@@ -22,7 +22,33 @@ class CodeView @JvmOverloads constructor(context: Context, attr: AttributeSet? =
     }
     */
 
-    private val paint: Paint = Paint()
+    private val paint: Paint = Paint().apply {
+        isAntiAlias = true
+        style = Paint.Style.STROKE
+        color = getContext().getColor(R.color.colorAccent)
+        strokeWidth = 6f.dp2px()
+        //apply返回的是本身
+    }
+
+    /**
+     * 需要返回自身话，使用apply 和 also
+     * 不需要返回自身，使用let 和 run
+     * 需要使用this为作用域的话，使用 apply 和 run
+     * 需要使用it 为作用域的话，使用 let 和 also
+     *
+     */
+
+    /*
+    //let{}更适合判断是否为空然后在调用相关逻辑的使用，let返回的是最后一行的结果
+    private val paint: Paint = Paint().let {
+        it.isAntiAlias = true
+        it.style = Paint.Style.STROKE
+        it.color = getContext().getColor(R.color.colorAccent)
+        it.strokeWidth = 6f.dp2px()
+        return@let it //
+    }*/
+
+
     private val codeList = arrayOf("kotlin",
             "android",
             "java",
@@ -38,10 +64,6 @@ class CodeView @JvmOverloads constructor(context: Context, attr: AttributeSet? =
         setBackgroundColor(getContext().getColor(R.color.colorPrimary))
         setTextColor(Color.WHITE)
 
-        paint.isAntiAlias = true
-        paint.style = Paint.Style.STROKE
-        paint.color = getContext().getColor(R.color.colorAccent)
-        paint.strokeWidth = 6f.dp2px()
 
         updateCode()
     }

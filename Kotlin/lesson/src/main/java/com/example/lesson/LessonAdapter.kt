@@ -50,10 +50,11 @@ class LessonAdapter : RecyclerView.Adapter<LessonAdapter.LessonViewHolder>() {
 
             setText(R.id.tv_date, lesson.date ?: "日期待定")
             setText(R.id.tv_content, lesson.content)
-            val state = lesson.state
-            if (state != null) {
-                setText(R.id.tv_state, state.stateName()!!)
-                val colorRes = when (state) {
+            //这里使用also{}也可以，also返回的是调用者本身，let返回的是最后一行的结果
+            //使用run{}也可以，返回的是最后一行的结果，关键字为this,但这这里this会容易混淆是否为父类的this，调用时可以使用this@run表示
+            lesson.state?.let {
+                setText(R.id.tv_state, it.stateName()!!)
+                val colorRes = when (it) {
                     Lesson.State.PLAYBACK -> R.color.playback
                     Lesson.State.LIVE -> R.color.live
                     Lesson.State.WAIT -> R.color.wait
