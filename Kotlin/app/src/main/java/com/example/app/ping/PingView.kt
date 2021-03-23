@@ -6,16 +6,22 @@ import android.util.AttributeSet
 import android.widget.ScrollView
 import android.widget.TextView
 
+/**
+ * PING结果视图
+ */
 class PingView(context: Context, attr: AttributeSet? = null) : ScrollView(context, attr), NetDiagnoListener {
-
-
     private val textView: TextView = TextView(context)
-    private var showInfo: String = ""
     private var netDiagnoService: NetDiagnoService? = null
-    private var listener: NetDiagnoListener? = null
+    var listener: NetDiagnoListener? = null
 
-    private var deviceId = ""
-    private var versionName = ""
+    //日志信息
+    var logInfo: String = ""
+
+    //设备id
+    var deviceId = ""
+
+    //版本号
+    var versionName = ""
 
     init {
         textView.setTextColor(Color.BLACK)
@@ -24,8 +30,8 @@ class PingView(context: Context, attr: AttributeSet? = null) : ScrollView(contex
     }
 
     fun pingHost(host: String) {
-        showInfo = "hello world"
-        updateText(showInfo)
+        logInfo = "hello world"
+        updateText(logInfo)
         netDiagnoService?.let {
             if (!it.isCanceled()) {
                 it.cancel()
@@ -37,17 +43,38 @@ class PingView(context: Context, attr: AttributeSet? = null) : ScrollView(contex
         netDiagnoService!!.start()
     }
 
+    /**
+     * 取消ping
+     */
+    fun cancelPing() {
+        netDiagnoService?.stop()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        cancelPing()
+    }
 
     private fun updateText(text: String) {
         textView.text = text
     }
 
     override fun onUpdated(log: String) {
-        TODO("Not yet implemented")
+        listener?.onUpdated(log)
+        logInfo += log
+        updateText(logInfo)
+        fullScroll(FOCUS_DOWN)
     }
 
+    /**
+     * 诊断结束，输出全部日志记录
+     *
+     * @param log log日志输出
+     */
     override fun onFinish(log: String) {
-        TODO("Not yet implemented")
+        listener?.onFinish(log)
+        updateText(log)
+        fullScroll(FOCUS_DOWN)
     }
 
     override fun onNetStates(isParseOk: Boolean, isSocketConnected: Boolean) {

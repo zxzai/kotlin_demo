@@ -20,5 +20,11 @@ class NetDiagnoService {
         TODO("Not yet implemented")
     }
 
+    /**
+     * 停止诊断网络
+     */
+    fun stop() {
+    }
+
 
 }
